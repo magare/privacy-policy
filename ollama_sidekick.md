@@ -79,7 +79,7 @@ APIs, in the location shown for each row:
 | Agent origins approved by the user              | Remember permitted task sites                  | Local browser storage                |
 | Redacted Agent Mode checkpoints and research    | Resume tasks and verify research results       | Local browser storage, up to 30 days |
 | Structured Agent Mode event and receipt records | Audit actions, approvals, and verified effects | Local browser storage, up to 30 days |
-| Latest verified safety-setting timestamp        | Reject older publisher settings                | Local browser storage                |
+| Latest verified safety setting and timestamp    | Reject older publisher settings                | Local browser storage                |
 
 This stored configuration is not sent to the extension developer. API keys are
 kept in a dedicated local storage entry (not in the cloud-connection metadata
@@ -238,13 +238,13 @@ Policy, including its Limited Use requirements.
 
 ## Summary
 
-| Question                                  | Answer                                                                          |
-| ----------------------------------------- | ------------------------------------------------------------------------------- |
-| Does the extension process personal data? | It may process content you provide or select; the developer does not receive it |
-| Do you track users?                       | No                                                                              |
-| Do you use analytics?                     | No                                                                              |
-| Do you sell data?                         | No (we don't have any)                                                          |
-| Where is data stored?                     | Only on your local device                                                       |
+| Question                                  | Answer                                                                                                    |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Does the extension process personal data? | It may process content you provide or select; the developer does not receive it                           |
+| Do you track users?                       | No                                                                                                        |
+| Do you use analytics?                     | No                                                                                                        |
+| Do you sell data?                         | No (we don't have any)                                                                                    |
+| Where is data stored?                     | Only on your local device                                                                                 |
 | Where does data go?                       | Model data goes to your chosen endpoint; Agent Mode sends network metadata to GitHub for its safety check |
 
 ---
