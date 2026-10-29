@@ -22,13 +22,21 @@ Ollama Sidekick is a browser extension that provides a chat interface to local O
 
 ## Our Privacy Commitment
 
-**Ollama Sidekick does not operate analytics, advertising, tracking, or developer-owned data servers.**
+**Ollama Sidekick does not operate analytics, advertising, tracking, or a developer-run model proxy.**
 
 Local Ollama use stays on the endpoint you configure. If you add a cloud model connection, prompts, enabled page context, conversation history needed for the request, and optional screenshots are sent directly to that provider under its own privacy policy.
 
 Page context is enabled by default and can be turned off with the context
 toggle before sending a request. Agent Mode is optional and uses observations
 from the pages needed for the task you start.
+
+Starting with version 2.0.4, Agent Mode also checks a signed publisher safety
+setting hosted on GitHub. The check sends no chat, API key, model name, task
+identifier, visited URL, or page content. GitHub receives ordinary request
+metadata, including your IP address, browser user agent, and request time. The
+request has no cookies or referrer and contains only a timestamp in its URL.
+If the setting cannot be reached or verified, has expired, or disables Agent
+Mode, the agent pauses. Regular chat does not require this safety check.
 
 The extension does not receive persistent access to every website when it is
 installed. One-off current-page features can use Chrome's temporary `activeTab`
@@ -71,6 +79,7 @@ APIs, in the location shown for each row:
 | Agent origins approved by the user              | Remember permitted task sites                  | Local browser storage                |
 | Redacted Agent Mode checkpoints and research    | Resume tasks and verify research results       | Local browser storage, up to 30 days |
 | Structured Agent Mode event and receipt records | Audit actions, approvals, and verified effects | Local browser storage, up to 30 days |
+| Latest verified safety-setting timestamp        | Reject older publisher settings                | Local browser storage                |
 
 This stored configuration is not sent to the extension developer. API keys are
 kept in a dedicated local storage entry (not in the cloud-connection metadata
@@ -145,6 +154,7 @@ Ollama Sidekick makes model requests only to endpoints configured by you:
 | -------------------------------------- | --------------------------------------------- |
 | `localhost:11434` or `127.0.0.1:11434` | Connect to your local Ollama server           |
 | A cloud API base URL you save          | List models and send chat-completion requests |
+| `raw.githubusercontent.com`            | Retrieve signed Agent Mode safety settings    |
 
 Loopback access is part of the required installation permissions. A remote
 provider requires an exact runtime host grant and must use HTTPS. The manifest's
@@ -155,7 +165,7 @@ The extension does not:
 
 - Send model data to developer-owned servers
 - Include any analytics or tracking scripts
-- Load resources from external CDNs (all assets are bundled)
+- Load executable code from external CDNs (all executable assets are bundled)
 
 ## Third-Party Services
 
@@ -163,6 +173,10 @@ Cloud integrations are opt-in and use an OpenAI-compatible API supplied by you.
 The provider receives only requests you initiate while one of its models is selected.
 Your relationship with that service—including retention, training, and billing—is
 governed by the provider's terms and privacy policy.
+
+The signed Agent Mode safety setting is delivered through GitHub's raw content
+service. GitHub handles the network metadata described above under its own
+privacy policy; the request does not contain your model prompts or page data.
 
 ## Permissions Explained
 
@@ -231,7 +245,7 @@ Policy, including its Limited Use requirements.
 | Do you use analytics?                     | No                                                                              |
 | Do you sell data?                         | No (we don't have any)                                                          |
 | Where is data stored?                     | Only on your local device                                                       |
-| Where does data go?                       | To the local or cloud model endpoint you select                                 |
+| Where does data go?                       | Model data goes to your chosen endpoint; Agent Mode sends network metadata to GitHub for its safety check |
 
 ---
 
