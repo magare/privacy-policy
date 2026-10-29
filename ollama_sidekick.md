@@ -108,6 +108,10 @@ the content needed for the features you invoke and may send that content to
 your selected model provider as described above; choose your pages and provider
 accordingly.
 
+The agent records its task actions and approval decisions to support progress,
+verification, and recovery. The extension does not continuously log your
+general browsing clicks, mouse movement, or keystrokes.
+
 Chrome separately manages host-permission grants. Users can review or revoke
 site access in Chrome's extension settings or from Sidekick's Diagnostics
 panel. Revoking a Chrome grant does not transmit anything to the extension
