@@ -1,0 +1,33 @@
+name: Ollama Sidekick agent safety
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '11,26,41,56 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ollama-sidekick-agent-safety
+  cancel-in-progress: false
+
+jobs:
+  publish-signed-setting:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Sign the current safety setting
+        env:
+          SIDEKICK_AGENT_SAFETY_PRIVATE_KEY: ${{ secrets.SIDEKICK_AGENT_SAFETY_PRIVATE_KEY }}
+          SIDEKICK_AGENT_SAFETY_MODE: ${{ vars.SIDEKICK_AGENT_SAFETY_MODE }}
+        run: node .github/scripts/ollama-sidekick-agent-safety.mjs
+      - name: Publish the signed setting
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add ollama-sidekick/agent-safety.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Refresh Ollama Sidekick agent safety setting'
+          git push origin HEAD:main
